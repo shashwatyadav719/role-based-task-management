@@ -81,6 +81,7 @@ Run the application
 
 uvicorn main:app --reload
 
+****  CREDENTIALS :
 
 
 ** Admin
