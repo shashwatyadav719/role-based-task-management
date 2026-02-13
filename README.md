@@ -2,7 +2,7 @@ Role-Based Task Management System
 
 A FastAPI-based Role-Based Task Management System implementing JWT authentication and strict role-based access control (RBAC).
 
-🚀 Tech Stack
+** Tech Stack
 
 Python
 
@@ -18,7 +18,7 @@ Passlib (bcrypt)
 
 Basic HTML Frontend
 
-🔐 Authentication
+** Authentication
 
 JWT-based authentication
 
@@ -26,8 +26,8 @@ Token generated on login
 
 All protected APIs require Bearer token
 
-👥 User Roles
-🔹 Admin
+**** User Roles
+** Admin
 
 Create, read, update, delete any task
 
@@ -35,7 +35,7 @@ Assign tasks to users
 
 View all tasks
 
-🔹 Editor
+** Editor
 
 View assigned tasks
 
@@ -43,13 +43,13 @@ Update assigned tasks
 
 Cannot delete tasks
 
-🔹 Viewer
+** Viewer
 
 View assigned tasks only
 
 Cannot create, update, or delete
 
-📋 API Endpoints
+** API Endpoints
 Authentication
 
 POST /auth/register
@@ -68,7 +68,7 @@ PUT /tasks/{task_id}
 
 DELETE /tasks/{task_id} (Admin only)
 
-🛠️ Setup Instructions
+** Setup Instructions
 
 Clone the repository
 
@@ -80,6 +80,38 @@ pip install -r requirements.txt
 Run the application
 
 uvicorn main:app --reload
+
+
+
+** Admin
+
+Username: admin1
+
+Password: 1234
+
+Role: admin
+
+ID: 1 
+
+** Editor
+
+Username: editor1
+
+Password: 1234
+
+Role: editor
+
+ID: 2
+
+** Viewer
+
+Username: viewer1
+
+Password: 1234
+
+Role: viewer
+
+ID: 3
 
 
 Access Swagger documentation:
