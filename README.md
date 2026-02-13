@@ -120,3 +120,32 @@ Access Swagger documentation:
 http://127.0.0.1:8000/docs
 
 
+
+# 📊 Database Tables (Current Data Snapshot)
+
+## 🗄️ Users Table
+
+| id | username   | password (hashed) | role   |
+|----|------------|-------------------|--------|
+| 1  | admin1     | $2b$12$...        | admin  |
+| 2  | editor1    | $2b$12$...        | editor |
+| 3  | viewer1    | $2b$12$...        | viewer |
+| 4  | shashwat   | $2b$12$...        | admin  |
+| 5  | shashwat1  | $2b$12$...        | admin  |
+
+
+
+---
+
+## 🗄️ Tasks Table
+
+| id | title                                           | description                      | status  | created_at                  | created_by | assigned_to |
+|----|-------------------------------------------------|----------------------------------|----------|----------------------------|------------|-------------|
+| 1  | Editor Task Only editor should see this         | Only editor should see this      | pending  | 2026-02-13 09:14:21.416027 | 1          | 2           |
+| 2  | Viewer Task Only viewer should see this         | Only viewer should see this      | pending  | 2026-02-13 09:14:56.749226 | 1          | 3           |
+| 3  | task5                                           | task                             | pending  | 2026-02-13 09:27:20.184621 | 4          | 2           |
+| 4  | task22                                          | task                             | pending  | 2026-02-13 10:00:16.422702 | 5          | 2           |
+
+---
+
+
