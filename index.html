@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Management System</title>
+</head>
+<body>
+
+<h1>Role Based Task Management</h1>
+
+<!-- ================= REGISTER ================= -->
+
+<h2>🔐 Register</h2>
+<input id="reg_username" placeholder="Username">
+<input id="reg_password" type="password" placeholder="Password">
+<select id="reg_role">
+    <option value="admin">Admin</option>
+    <option value="editor">Editor</option>
+    <option value="viewer">Viewer</option>
+</select>
+<button onclick="register()">Register</button>
+
+<hr>
+
+<!-- ================= LOGIN ================= -->
+
+<h2>🔑 Login</h2>
+<input id="login_username" placeholder="Username">
+<input id="login_password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="logout()">Logout</button>
+
+<p id="login_status"></p>
+
+<hr>
+
+<!-- ================= CREATE TASK ================= -->
+
+<h2>➕ Create Task (Admin Only)</h2>
+<input id="task_title" placeholder="Title">
+<input id="task_desc" placeholder="Description">
+<input id="task_assigned" placeholder="Assign To User ID (2 or 3)">
+<button onclick="createTask()">Create Task</button>
+
+<hr>
+
+<!-- ================= VIEW TASKS ================= -->
+
+<h2>📄 View Tasks</h2>
+<button onclick="getTasks()">Load Tasks</button>
+<ul id="task_list"></ul>
+
+<script>
+
+const BASE_URL = "http://127.0.0.1:8000";
+
+/* ================= TOKEN HELPERS ================= */
+
+function getToken() {
+    return localStorage.getItem("token");
+}
+
+function setToken(token) {
+    localStorage.setItem("token", token);
+}
+
+function removeToken() {
+    localStorage.removeItem("token");
+}
+
+/* ================= REGISTER ================= */
+
+async function register() {
+    const username = document.getElementById("reg_username").value;
+    const password = document.getElementById("reg_password").value;
+    const role = document.getElementById("reg_role").value;
+
+    const res = await fetch(`${BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, role })
+    });
+
+    const data = await res.json();
+    alert(JSON.stringify(data));
+}
+
+/* ================= LOGIN ================= */
+
+async function login() {
+    const username = document.getElementById("login_username").value;
+    const password = document.getElementById("login_password").value;
+
+    const res = await fetch(`${BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+        setToken(data.access_token);
+        document.getElementById("login_status").innerText = "✅ Logged in successfully!";
+    } else {
+        document.getElementById("login_status").innerText = "❌ " + data.detail;
+    }
+}
+
+/* ================= LOGOUT ================= */
+
+function logout() {
+    removeToken();
+    document.getElementById("login_status").innerText = "Logged out";
+}
+
+/* ================= CREATE TASK ================= */
+
+async function createTask() {
+
+    const token = getToken();
+    if (!token) {
+        alert("Please login first.");
+        return;
+    }
+
+    const title = document.getElementById("task_title").value;
+    const description = document.getElementById("task_desc").value;
+    const assigned_to = parseInt(document.getElementById("task_assigned").value);
+
+    if (!assigned_to) {
+        alert("Enter valid user ID to assign task.");
+        return;
+    }
+
+    const res = await fetch(`${BASE_URL}/tasks`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ title, description, assigned_to })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        alert("❌ " + data.detail);
+        return;
+    }
+
+    alert("✅ Task Created!");
+    getTasks();
+}
+
+/* ================= GET TASKS ================= */
+
+async function getTasks() {
+
+    const token = getToken();
+    if (!token) {
+        alert("Please login first.");
+        return;
+    }
+
+    const res = await fetch(`${BASE_URL}/tasks`, {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });
+
+    const data = await res.json();
+
+    const list = document.getElementById("task_list");
+    list.innerHTML = "";
+
+    if (!res.ok) {
+        alert("❌ " + data.detail);
+        return;
+    }
+
+    data.forEach(task => {
+        const li = document.createElement("li");
+        li.innerText = `Title: ${task.title} | Status: ${task.status} | Assigned To: ${task.assigned_to}`;
+        list.appendChild(li);
+    });
+}
+
+</script>
+
+</body>
+</html>
