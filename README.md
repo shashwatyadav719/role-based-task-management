@@ -1,5 +1,8 @@
 Role-Based Task Management System
-1 Tech Stack
+
+A FastAPI-based Role-Based Task Management System implementing JWT authentication and strict role-based access control (RBAC).
+
+🚀 Tech Stack
 
 Python
 
@@ -9,79 +12,51 @@ SQLAlchemy
 
 SQLite
 
-JWT Authentication
+JWT (python-jose)
 
-HTML (Basic Frontend)
+Passlib (bcrypt)
 
-2 Features
+Basic HTML Frontend
+
+🔐 Authentication
 
 JWT-based authentication
 
-Role-based access control
+Token generated on login
 
-Admin can create and assign tasks
+All protected APIs require Bearer token
 
-Editor can update assigned tasks
-
-Viewer can only view assigned tasks
-
-Secure API endpoints
-
-Swagger documentation available
-
-3 User Roles
-
-Admin
+👥 User Roles
+🔹 Admin
 
 Create, read, update, delete any task
 
 Assign tasks to users
 
-View all users
+View all tasks
 
-Editor
+🔹 Editor
 
 View assigned tasks
 
 Update assigned tasks
 
-Cannot delete
+Cannot delete tasks
 
-Viewer
+🔹 Viewer
 
 View assigned tasks only
 
-Cannot create, update, delete
+Cannot create, update, or delete
 
-4 Setup Instructions
-
-Clone repository
-
-Create virtual environment
-
-Install dependencies
-
-pip install -r requirements.txt
-
-
-Run server
-
-uvicorn main:app --reload
-
-
-Access Swagger:
-
-http://127.0.0.1:8000/docs
-
-5 API Endpoints
-
-Authentication:
+📋 API Endpoints
+Authentication
 
 POST /auth/register
 
 POST /auth/login
 
-Task Management:
+Task Management
 
 POST /tasks (Admin only)
 
@@ -91,5 +66,24 @@ GET /tasks/{task_id}
 
 PUT /tasks/{task_id}
 
-DELETE /tasks/{task_id}
+DELETE /tasks/{task_id} (Admin only)
+
+🛠️ Setup Instructions
+
+Clone the repository
+
+Install dependencies
+
+pip install -r requirements.txt
+
+
+Run the application
+
+uvicorn main:app --reload
+
+
+Access Swagger documentation:
+
+http://127.0.0.1:8000/docs
+
 
